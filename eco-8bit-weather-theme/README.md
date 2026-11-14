@@ -12,6 +12,8 @@ claude --plugin-dir ./eco-8bit-weather-theme
 
 In a session the desktop app starts, set `CLAUDE_CODE_PLUGIN_DIRS` to this folder's absolute path instead.
 
+The theme turns on by itself when a session starts. `/eco-theme` turns it back on (say, after trying a built-in theme), and `/eco-theme off` clears it. It isn't one of `/custom-theme`'s built-in examples, so that command won't find it by name.
+
 ## Change the scene
 
 `hooks/scene.ts` is generated. Edit `source/gen_scene.py`, then run it from `source/` (needs Python with Pillow):

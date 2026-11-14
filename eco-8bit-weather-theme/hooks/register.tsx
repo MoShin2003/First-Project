@@ -33,6 +33,11 @@ const LOOK: ThemeSetArgs = {
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
+    await $.command.register({
+      name: 'eco-theme',
+      description: 'Turn the Eco 8-Bit Weather theme on, or off with "off"',
+      argumentHint: '[on|off]',
+    })
     const unpainted = problems.find(line => line.startsWith("Desktop won't paint"))
 
     if (unpainted !== undefined) {
@@ -45,6 +50,21 @@ export const register: Register = on => {
     }
 
     return next(e)
+  })
+
+  on('command.run', { command: 'eco-theme' }, async ($, e) => {
+    if (e.args.trim().toLowerCase() === 'off') {
+      await $.theme.clear()
+
+      return { text: 'Eco 8-Bit Weather is off. Run /eco-theme to turn it back on.' }
+    }
+    const set = await $.theme.set(LOOK)
+
+    return {
+      text: set.isDrawn
+        ? 'Eco 8-Bit Weather is on.'
+        : `Eco 8-Bit Weather is set, but nothing here draws it: ${set.reason}`,
+    }
   })
 
   on('ui.render', { component: 'Backdrop' }, ($, e, next) => {
